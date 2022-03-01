@@ -1,0 +1,1 @@
+add_library(krw_util STATIC krw_util.cpp unix_dkrw.cpp)
