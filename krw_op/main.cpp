@@ -16,6 +16,7 @@
 #include <unistd.h>
 
 #include <localUtil.h>
+#include <localUtil_cpp.h>
 
 #include <k_share.h>
 #include <krw_util.h>
