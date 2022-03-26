@@ -9,8 +9,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${ANDROID_TOOL_BASE}/common/local_util
     ${ANDROID_TOOL_BASE}/common/bgrep_c
     ${ANDROID_TOOL_BASE}/common/kern_img/common
-    ${ANDROID_TOOL_BASE}/common/kern_img/linux
-    ${ANDROID_TOOL_BASE}/linux/rwDrv/include)
+    ${ANDROID_TOOL_BASE}/common/kern_img/${MY_HOST_COMPILER}
+    ${ANDROID_TOOL_BASE}/${MY_HOST_COMPILER}/${RW_DRIVER}/include)
 
 if (DEFINED LIVE_KERNEL)
     target_compile_definitions(${PROJECT_NAME} PRIVATE
