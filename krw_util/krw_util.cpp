@@ -16,10 +16,10 @@ int kInit()
     size_t found_base = 0;
 
     SAFE_BAIL(kernel_init() == -1);
-    SAFE_BAIL(kernel_base(&found_base) == -1);
+   SAFE_BAIL(kernel_base(&found_base) == -1);
 
-    g_kernblock = kernel_block::grab_live_kernel<kern_dynamic>((void*)found_base);
-    SAFE_BAIL(g_kernblock == 0);
+   g_kernblock = kernel_block::grab_live_kernel<kern_dynamic>((void*)found_base);
+   SAFE_BAIL(g_kernblock == 0);
 
     result = 0;
 fail:
