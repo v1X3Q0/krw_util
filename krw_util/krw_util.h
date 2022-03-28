@@ -29,6 +29,8 @@ int kClose();
 size_t kSlideTarg(size_t targ);
 size_t kBaseTarg(size_t targ);
 
+int kBaseRoll(size_t* kbase_a);
+
 // putting declarators here, they need to be defined later.
 int kernel_init();
 // kernel leak is a funny one, for now i have it leaking printk or

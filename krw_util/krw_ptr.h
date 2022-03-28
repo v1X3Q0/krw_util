@@ -6,6 +6,7 @@
 #include <kernel_block.h>
 #include <kern_img.h>
 #include <kern_dynamic.h>
+#include <krw_util.h>
 
 extern kern_dynamic *g_kernblock;
 
@@ -61,6 +62,7 @@ protected:
 public:
     kern_struct(size_t new_address) : kern_address(new_address) {};
     
+    // read a member whose offset is specified by key member_key
     template<typename t>
     t kread_member(std::string member_key)
     {
@@ -90,6 +92,16 @@ public:
     {
         return kern_address;
     }
+
+    bool operator==(const size_t &other) const
+    {
+        return kern_address == other;
+    }
+
+    bool operator!=(const size_t &other) const
+    {
+        return !(kern_address == other);
+    }
 };
 
 // SABER is the constructor for each kern_struct inheritor
@@ -97,6 +109,7 @@ public:
 class KSTRUCT_NAME : public kern_struct \
 { \
     using kern_struct::kern_struct; \
+public: \
     __VA_ARGS__ \
     KSTRUCT_NAME operator[](const int location) \
     { \
@@ -137,11 +150,20 @@ class KSTRUCT_NAME : public kern_struct \
     } \
 };
 
+// berserker is the template variant of saber
+#define BERSERKER(KSTRUCT_NAME, TYPE_NAME, ...) \
+    template<TYPE_NAME> \
+    SABER(KSTRUCT_NAME, __VA_ARGS__)
+
+// rider retrieves the kernel prim at the address
 #define RIDER(RET_TYPE, OFFSET_BASE, MEM_NAME) \
         RET_TYPE MEM_NAME() { return kread_member<RET_TYPE>( # OFFSET_BASE "." # MEM_NAME); };
 
-#define CASTER
+// lancer is used as a getter for the offset of a type
+#define LANCER(RET_TYPE, OFFSET_BASE, MEM_NAME) \
+        RET_TYPE MEM_NAME() { return kadd_member<RET_TYPE>( # OFFSET_BASE "." # MEM_NAME); };
 
-SABER(task_struct, RIDER(void*, task_struct, tasks));
+// generic definitions for all operating systems
+BERSERKER(list_entry, typename T, RIDER(T, list_entry<T>, next) RIDER(T, list_entry<T>, prev));
 
 #endif

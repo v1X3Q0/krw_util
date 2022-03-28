@@ -4,7 +4,7 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
     message(FATAL_ERROR "need ANDROID_TOOL_BASE")
 endif()
 
-add_library(${PROJECT_NAME} STATIC krw_util.cpp unix_dkrw.cpp)
+add_library(${PROJECT_NAME} STATIC krw_util.cpp unix_dkrw.cpp kBaseRoll.cpp)
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${ANDROID_TOOL_BASE}/common/local_util
     ${ANDROID_TOOL_BASE}/common/bgrep_c
