@@ -19,6 +19,11 @@ typedef enum
     LEAK_USERMAX
 } LEAK_USER_SHARE;
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // these routines are provided and exported
 int kInit();
 int kRead(void* buf, size_t len, size_t offset);
@@ -50,5 +55,9 @@ int unix_dkread(int _fd, void *buf, size_t len, size_t offset);
 int unix_dkwrite(int _fd, void *buf, size_t len, size_t offset);
 
 void* kdlsym(const char* symbol);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -10,7 +10,9 @@
 #include <localUtil.h>
 #include <drv_share.h>
 
+#ifdef __arm64__
 #include <hdeA64.h>
+#endif
 #include "krw_util.h"
 
 // kbaseroll macros happen in 4 stages, incase it needs to be broken up

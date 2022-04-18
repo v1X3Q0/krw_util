@@ -14,5 +14,12 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${ANDROID_TOOL_BASE}/${MY_HOST_COMPILER}/${RW_DRIVER}/include)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    kern_${MY_HOST_COMPILER} kernel_block bgrep_e krw_util targkrw
+    bgrep_e krw_util targkrw
     localUtil localUtil_cpp ${KRW_USE})
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    kern_${MY_HOST_COMPILER} kernel_block kernel_block_live)
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    target_link_libraries(${PROJECT_NAME} PRIVATE kernelresolver)
+endif()
