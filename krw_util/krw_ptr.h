@@ -52,6 +52,12 @@ public:
         kRead(&tempObj, sizeof(tempObj), kern_address);
         return tempObj;
     }
+
+    t operator=(t other)
+    {
+        kWrite(&other, sizeof(t), kern_address);
+        return other;
+    }
 };
 
 
@@ -69,10 +75,10 @@ public:
         size_t offset_local = 0;
         size_t new_kern_addr = 0;
 
-        g_kernblock->kstruct_offset(member_key, &offset_local);
+        SAFE_PEXIT(g_kernblock->kstruct_offset(member_key, &offset_local) == -1, "symerror on symbol %s\n", member_key.data());
         
         kRead(&new_kern_addr, sizeof(new_kern_addr), kern_address + offset_local);
-        return t(kern_address);
+        return t(new_kern_addr);
     }
     
     template<typename t>
@@ -80,11 +86,10 @@ public:
     {
         size_t offset_local = 0;
         size_t new_kern_addr = 0;
-
-        g_kernblock->kstruct_offset(member_key, &offset_local);
+        
+        SAFE_PEXIT(g_kernblock->kstruct_offset(member_key, &offset_local) == -1, "symerror on symbol %s\n", member_key.data());
 
         kern_address += offset_local;
-
         return t(kern_address);
     }
     
