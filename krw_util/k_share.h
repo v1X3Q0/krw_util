@@ -5,9 +5,13 @@
 
 typedef enum
 {
+#ifdef OP_MAX
+    READ_OP=OP_MAX << 1,
+#else
     READ_OP=1,
-    WRITE_OP=2,
-    SEEK_OP=4
+#endif
+    WRITE_OP=READ_OP << 1,
+    SEEK_OP=WRITE_OP << 1
 } opVals_t;
 
 typedef struct

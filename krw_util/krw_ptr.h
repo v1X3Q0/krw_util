@@ -20,6 +20,7 @@ public:
     kern_ptr(size_t kernel_address_a) : kern_address(kernel_address_a) {};
 //    Point& operator++();       // Prefix increment operator.
 //    Point operator++(int);     // Postfix increment operator.
+    size_t get_kaddr() { return kern_address; };
     kern_ptr& operator++()
     {
         kern_address += sizeof(t);
@@ -65,6 +66,7 @@ class kern_struct
 {
 protected:
     size_t kern_address;
+    std::string class_name;
 public:
     kern_struct(size_t new_address) : kern_address(new_address) {};
     
@@ -109,13 +111,8 @@ public:
     }
 };
 
-// SABER is the constructor for each kern_struct inheritor
-#define SABER(KSTRUCT_NAME, ...) \
-class KSTRUCT_NAME : public kern_struct \
-{ \
-    using kern_struct::kern_struct; \
-public: \
-    __VA_ARGS__ \
+// MORTIMERE is when the struct has a size component, then we can add size operators
+#define MORTIMERE(KSTRUCT_NAME) \
     KSTRUCT_NAME operator[](const int location) \
     { \
         size_t offset_local = 0; \
@@ -152,7 +149,15 @@ public: \
         g_kernblock->kstruct_offset(# KSTRUCT_NAME ".size", &offset_local); \
         kern_address -= offset_local; \
         return ptrBkp; \
-    } \
+    }
+
+// SABER is the constructor for each kern_struct inheritor
+#define SABER(KSTRUCT_NAME, ...) \
+class KSTRUCT_NAME : public kern_struct \
+{ \
+    using kern_struct::kern_struct; \
+public: \
+    __VA_ARGS__ \
 };
 
 // berserker is the template variant of saber
