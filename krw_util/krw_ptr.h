@@ -3,12 +3,13 @@
 
 #include <string>
 #include <stdio.h>
+
 #include <kernel_block.h>
 #include <kern_img.h>
 #include <kern_dynamic.h>
 #include <krw_util.h>
 
-extern kern_dynamic *g_kernblock;
+extern kern_dynamic* g_kernblock;
 
 // to be used for kernel pointers of primitive types
 template <typename t>
@@ -79,7 +80,7 @@ public:
 
         SAFE_PEXIT(g_kernblock->kstruct_offset(member_key, &offset_local) == -1, "symerror on symbol %s\n", member_key.data());
         
-        kRead(&new_kern_addr, sizeof(new_kern_addr), kern_address + offset_local);
+        kReadPtr(&new_kern_addr, sizeof(new_kern_addr), kern_address + offset_local);
         return t(new_kern_addr);
     }
     

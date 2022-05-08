@@ -18,7 +18,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     localUtil localUtil_cpp ${KRW_USE})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    kern_${MY_HOST_COMPILER} kernel_block kernel_block_live)
+    hdeA64 c_reginst # unnecessary til i reinsert heuristics.
+    kern_${MY_HOST_COMPILER} kernel_block kernel_block_live
+    ${MY_HOST_COMPILER}_dyn_offset)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     target_link_libraries(${PROJECT_NAME} PRIVATE kernelresolver)

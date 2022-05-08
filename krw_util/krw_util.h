@@ -27,7 +27,9 @@ extern "C"
 // these routines are provided and exported
 int kInit();
 int kRead(void* buf, size_t len, size_t offset);
+int kReadPtr(void* buf, size_t len, size_t offset);
 int kWrite(void* buf, size_t len, size_t offset);
+int kWritePtr(void* buf, size_t len, size_t offset);
 int kSlide(size_t* a_kernelSlide);
 int kBase(size_t* a_kernelBase);
 int kClose();
