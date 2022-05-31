@@ -25,3 +25,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     target_link_libraries(${PROJECT_NAME} PRIVATE kernelresolver)
 endif()
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    target_link_options(${PROJECT_NAME} PRIVATE /DYNAMICBASE:NO)
+endif()

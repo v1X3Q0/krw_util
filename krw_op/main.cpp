@@ -13,7 +13,10 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <string.h>
+
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 
 #include <localUtil.h>
 #include <localUtil_cpp.h>

@@ -51,10 +51,20 @@ int kernel_slide(size_t* a_kernelSlide);
 int kernel_base(size_t* a_kernelBase);
 int kernel_close();
 
+#ifdef _WIN32
+#include <Windows.h>
+int wind_kernel_write(HANDLE fd, void* buf, size_t count);
+int wind_kernel_read(HANDLE fd, void* buf, size_t count);
+int kernelOp(void* inArr, DWORD inArrSz, void* outArr, DWORD outArrSz);
+#define FDGLOB HANDLE
+#else
+#define FDGLOB int
+#endif
+
 // exporting these for mac and linux, maybe figure it out for windows
 // later
-int unix_dkread(int _fd, void *buf, size_t len, size_t offset);
-int unix_dkwrite(int _fd, void *buf, size_t len, size_t offset);
+int unix_dkread(FDGLOB _fd, void* buf, size_t len, size_t offset);
+int unix_dkwrite(FDGLOB _fd, void* buf, size_t len, size_t offset);
 
 void* kdlsym(const char* symbol);
 

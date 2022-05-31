@@ -4,7 +4,6 @@
 #ifdef __APPLE__
 #include <mach-o/loader.h>
 #include <mach/mach.h>
-#elif __linux__
 #endif
 
 #include <localUtil.h>
