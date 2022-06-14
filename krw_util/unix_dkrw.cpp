@@ -21,7 +21,7 @@
     write(fd, seek_targ, sizeof(seek_struct)); \
     SAFE_BAIL(read(fd, read_addr, size_in) != size_in);
 #define uwrite(fd, seek_targ, size_out) \
-    write(fd, seekt_targ, size_out)
+    write(fd, seek_targ, size_out)
 #endif
 
 int unix_dkread(FDGLOB _fd, void *buf, size_t len, size_t offset)
