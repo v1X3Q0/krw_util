@@ -66,7 +66,7 @@ int unix_dkwrite(FDGLOB _fd, void *buf, size_t len, size_t offset)
         memcpy(destOff + 1, (uint8_t *)buf + i, curSz);
         destOff->offset = offset + i;
         destOff->len = curSz;
-        SAFE_BAIL(uwrite(_fd, writeBuf, curSz) != curSz);
+        SAFE_BAIL(uwrite(_fd, writeBuf, curSz) != (curSz - sizeof(seek_struct)));
     }
 
     result = 0;

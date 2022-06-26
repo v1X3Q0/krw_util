@@ -92,6 +92,16 @@ public:
     //    Point& operator++();       // Prefix increment operator.
     //    Point operator++(int);     // Postfix increment operator.
     size_t get_kaddr() { return kern_address; };
+    kern_ptr operator[](int index_delta)
+    {
+        kern_ptr<t> ptrBkp = 0;
+        size_t new_address_out = 0;
+
+        new_address_out = kern_address + (sizeof(t) * index_delta);
+        ptrBkp = (kern_ptr<t>)(new_address_out);
+        return ptrBkp;
+    }
+
     kern_ptr &operator++()
     {
         kern_address += sizeof(t);
