@@ -24,8 +24,11 @@ extern "C"
 {
 #endif
 
+#define kInit kInit_notsimple
+
 // these routines are provided and exported
-int kInit();
+int kInit_simple();
+int kInit_notsimple();
 int kRead(void* buf, size_t len, size_t offset);
 int kReadPtr(void* buf, size_t len, size_t offset);
 int kWrite(void* buf, size_t len, size_t offset);

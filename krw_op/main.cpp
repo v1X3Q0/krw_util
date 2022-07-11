@@ -28,6 +28,11 @@
 #define CUROP_READ  1
 #define CUROP_WRITE 2
 
+#ifdef kInit
+#undef kInit
+#define kInit kInit_simple
+#endif
+
 int main(int argc, char **argv)
 {
     SLIDE_BASE_t slid;

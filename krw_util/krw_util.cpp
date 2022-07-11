@@ -19,11 +19,13 @@
 
 kern_dynamic* g_kernblock = 0;
 
-int kInit()
+int kInit_notsimple()
 {
 	int result = -1;
 	size_t found_base = 0;
+#ifndef __linux__
     kern_static* kern_tmp = 0;
+#endif
 
 	SAFE_BAIL(kernel_init() == -1);
 #ifdef _WIN32
@@ -39,6 +41,17 @@ int kInit()
 	g_kernblock = kernel_block::grab_live_kernel<kern_dynamic>((void*)found_base);
 #endif
 	SAFE_BAIL(g_kernblock == 0);
+
+	result = 0;
+fail:
+	return result;
+}
+
+int kInit_simple()
+{
+	int result = -1;
+
+	SAFE_BAIL(kernel_init() == -1);
 
 	result = 0;
 fail:
