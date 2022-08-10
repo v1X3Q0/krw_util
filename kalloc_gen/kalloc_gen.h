@@ -7,12 +7,12 @@ class kalloc_gen
 {
 private:
 protected:
+    size_t kva;
     char* backing;
     size_t net_sz;
-    size_t kva;
 
-    virtual int kalloc_mech(size_t allocSz) = 0;
 public:
+    virtual int kalloc_mech(size_t allocSz) = 0;
     // static kalloc_mm* kalloc(size_t allocSz)
     // {
     //     kalloc_mm* = 0;
@@ -20,10 +20,21 @@ public:
     // fail:
         
     // }
-    kalloc_gen(size_t allocSz)
+
+    template<typename kalloc_type>
+    static kalloc_gen* kalloc_static(size_t sizeIn)
     {
-        kalloc_mech(allocSz);
-    };
+        int result = 0;
+        kalloc_type* tmpKalloc = 0;
+
+        tmpKalloc = new kalloc_type();
+        FINISH_IF(tmpKalloc->kalloc_mech(sizeIn) == 0);
+
+        SAFE_DEL(tmpKalloc);
+    fail:
+        return tmpKalloc;
+    }
+
     kalloc_gen() : kva(0), backing{0}, net_sz(0) {};
     size_t operator*() const
     {

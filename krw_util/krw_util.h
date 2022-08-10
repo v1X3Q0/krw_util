@@ -3,21 +3,10 @@
 
 #include <stdio.h>
 #include <stdint.h>
-#include <drv_share.h>
 
-typedef enum SLIDE_BASE
-{
-    SLIDE_TARG,
-    BASE_TARG,
-    UNTOUCHED_TARG,
-} SLIDE_BASE_t;
-
-typedef enum
-{
-    KERN_BASE_SHARE=LEAK_KERNMAX + 1,
-    KERN_SLIDE_SHARE,
-    LEAK_USERMAX
-} LEAK_USER_SHARE;
+#ifndef __METALKIT__
+#include "krw_kern_types.h"
+#endif
 
 #ifdef __cplusplus
 extern "C"

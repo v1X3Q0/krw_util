@@ -6,10 +6,18 @@
 
 #include <kernel_block.h>
 #include <kern_img.h>
+
+#ifndef __METALKIT__
 #include <kern_dynamic.h>
+#endif
+
 #include <krw_util.h>
 
+#ifdef __METALKIT__
+extern kernel_metalkit *g_kernblock;
+#else
 extern kern_dynamic *g_kernblock;
+#endif
 
 // MORTIMERE is when the struct has a size component, then we can add size operators
 #define MORTIMERE(KSTRUCT_NAME)                                            \
@@ -207,7 +215,6 @@ public:
     t kadd_member(std::string member_key)
     {
         size_t offset_local = 0;
-        size_t new_kern_addr = 0;
 
         SAFE_PEXIT(g_kernblock->kstruct_offset(member_key, &offset_local) == -1, "symerror on symbol %s\n", member_key.data());
 

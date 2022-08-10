@@ -2,8 +2,8 @@
 #include <stdint.h>
 
 #include <localUtil.h>
-#include <kernel_block.h>
 
+#include <kernel_block.h>
 #include <kern_img.h>
 #include <kern_dynamic.h>
 #include <kern_static.h>
