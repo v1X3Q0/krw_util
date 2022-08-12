@@ -5,8 +5,6 @@
 
 #include <kernel_block.h>
 #include <kern_img.h>
-#include <kern_dynamic.h>
-#include <kern_static.h>
 
 #ifdef __APPLE__
 #include <TargetConditionals.h>
@@ -17,7 +15,13 @@
 
 #include "krw_util.h"
 
-kern_dynamic* g_kernblock = 0;
+#ifdef __METALKIT__
+extern kernel_metalkit* g_kernblock;
+#else
+#include <kern_dynamic.h>
+#include <kern_static.h>
+extern kern_dynamic* g_kernblock;
+#endif
 
 int kInit_notsimple()
 {
@@ -56,41 +60,6 @@ int kInit_simple()
 	result = 0;
 fail:
 	return result;
-}
-
-int kRead(void* buf, size_t len, size_t offset)
-{
-	return kernel_read(buf, len, offset);
-}
-
-int kReadPtr(void* buf, size_t len, size_t offset)
-{
-	return kernel_read_ptr(buf, len, offset);
-}
-
-int kWrite(void* buf, size_t len, size_t offset)
-{
-	return kernel_write(buf, len, offset);
-}
-
-int kWritePtr(void* buf, size_t len, size_t offset)
-{
-	return kernel_write_ptr(buf, len, offset);
-}
-
-int kSlide(size_t* a_kernelSlide)
-{
-	return kernel_slide(a_kernelSlide);
-}
-
-int kBase(size_t* a_kernelBase)
-{
-	return kernel_base(a_kernelBase);
-}
-
-int kClose()
-{
-	return kernel_close();
 }
 
 size_t kSlideTarg(size_t targ)

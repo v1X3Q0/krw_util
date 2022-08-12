@@ -13,7 +13,11 @@ extern "C"
 {
 #endif
 
+#ifdef __METALKIT__
+#define kInit generic_init
+#else
 #define kInit kInit_notsimple
+#endif
 
 // these routines are provided and exported
 int kInit_simple();

@@ -4,6 +4,15 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
     message(FATAL_ERROR "need ANDROID_TOOL_BASE")
 endif()
 
+set(SOURCES_LIST
+    krw_kernblock.cpp
+)
+
+if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Metalkit")
+    list(APPEND SOURCES_LIST krw_util.cpp unix_dkrw.cpp kBaseRoll.cpp
+    )
+endif()
+
 set(INCLUDE_LIST
     ${ANDROID_TOOL_BASE}/common/local_util
     ${ANDROID_TOOL_BASE}/common/bgrep_c
@@ -15,7 +24,7 @@ if(${MY_HOST_COMPILER} STREQUAL "windows")
     list(APPEND INCLUDE_LIST ${ANDROID_TOOL_BASE}/${MY_HOST_COMPILER}/${RW_DRIVER}/targkrw)
 endif()
 
-add_library(${PROJECT_NAME} STATIC krw_util.cpp unix_dkrw.cpp kBaseRoll.cpp)
+add_library(${PROJECT_NAME} STATIC ${SOURCES_LIST})
 
 if (ARCH STREQUAL "arm64")
     list(APPEND INCLUDE_LIST ${ANDROID_TOOL_BASE}/common/hde_armv8)
