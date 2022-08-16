@@ -9,7 +9,8 @@ set(SOURCES_LIST
 )
 
 if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Metalkit")
-    list(APPEND SOURCES_LIST krw_util.cpp unix_dkrw.cpp kBaseRoll.cpp
+    list(APPEND SOURCES_LIST krw_util.cpp unix_dkrw.cpp
+    # kBaseRoll.cpp
     )
 endif()
 

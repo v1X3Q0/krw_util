@@ -30,11 +30,6 @@
 #define HEAD_BUF_SZ     0x60
 #endif
 
-int evaluate_found_ubuntu(uint8_t* buf)
-{
-    
-}
-
 int evaluate_found(uint8_t* buf)
 {
     int result = -1;

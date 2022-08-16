@@ -34,7 +34,7 @@ int kInit_notsimple()
 	SAFE_BAIL(kernel_init() == -1);
 #ifdef _WIN32
     kern_tmp = kernel_block::allocate_kern_img<kern_static>(KERNEL_PATH);
-	SAFE_BAIL(kernel_base(kern_tmp, &found_base) == -1);
+	SAFE_BAIL(kernel_base_block(kern_tmp, &found_base) == -1);
 #else
 	SAFE_BAIL(kernel_base(&found_base)== -1);
 #endif
