@@ -23,45 +23,6 @@ extern kernel_metalkit* g_kernblock;
 extern kern_dynamic* g_kernblock;
 #endif
 
-int kInit_notsimple()
-{
-	int result = -1;
-	size_t found_base = 0;
-#ifndef __linux__
-    kern_static* kern_tmp = 0;
-#endif
-
-	SAFE_BAIL(kernel_init() == -1);
-#ifdef _WIN32
-    kern_tmp = kernel_block::allocate_kern_img<kern_static>(KERNEL_PATH);
-	SAFE_BAIL(kernel_base_block(kern_tmp, &found_base) == -1);
-#else
-	SAFE_BAIL(kernel_base(&found_base)== -1);
-#endif
-    
-#ifdef _WIN32
-	g_kernblock = kernel_block::grab_live_kernel<kern_dynamic>((void*)found_base, (kernel_block*)kern_tmp);
-#else
-	g_kernblock = kernel_block::grab_live_kernel<kern_dynamic>((void*)found_base);
-#endif
-	SAFE_BAIL(g_kernblock == 0);
-
-	result = 0;
-fail:
-	return result;
-}
-
-int kInit_simple()
-{
-	int result = -1;
-
-	SAFE_BAIL(kernel_init() == -1);
-
-	result = 0;
-fail:
-	return result;
-}
-
 size_t kSlideTarg(size_t targ)
 {
 	size_t resultTarg = -1;

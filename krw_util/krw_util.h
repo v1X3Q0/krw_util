@@ -13,11 +13,7 @@ extern "C"
 {
 #endif
 
-#ifdef __METALKIT__
-#define kInit generic_init
-#else
 #define kInit kInit_notsimple
-#endif
 
 // these routines are provided and exported
 int kInit_simple();
@@ -35,7 +31,11 @@ size_t kBaseTarg(size_t targ);
 int kBaseRoll(size_t* kbase_a);
 
 // putting declarators here, they need to be defined later.
+#ifdef __METALKIT__
+#define kernel_init     generic_init
+#else
 int kernel_init();
+#endif
 // kernel leak is a funny one, for now i have it leaking printk or
 // printf for android and mac respectively. All for future guys
 int kernel_leak(size_t* leak_out);
