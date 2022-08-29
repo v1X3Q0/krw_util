@@ -38,12 +38,13 @@ int main(int argc, char **argv)
     SLIDE_BASE_t slid;
     int ret = 0;
     int curOp = 0;
-    char format = 0;
+    char* format = 0;
     void *addr = 0;
     size_t len = 0;
     uint8_t* netBuf = 0;
     unsigned char *readBuf = 0;
     int i = 0;
+    char default_format[] = "qx";
     
     if (argc < 5)
     {
@@ -54,7 +55,7 @@ int main(int argc, char **argv)
     if (*argv[1] == 'r')
     {
         curOp = CUROP_READ;
-        format = argv[1][1];
+        format = &argv[1][1];
     }
     else if (*argv[1] == 'w')
     {
@@ -121,7 +122,7 @@ int main(int argc, char **argv)
         default:
             goto fail;
         }
-        dumpMem((uint8_t*)&to_leak, sizeof(size_t), 'q');
+        dumpMem((uint8_t*)&to_leak, sizeof(size_t), default_format);
     }
 
     // all of the kernel enumerations are evaluated in the kernel during a read,

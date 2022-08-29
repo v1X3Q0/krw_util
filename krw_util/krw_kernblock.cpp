@@ -17,10 +17,13 @@
 #include <mk_extern_util/mod_prep.h>
 kernel_metalkit* g_kernblock = 0;
 #else
-#include <kern_dynamic.h>
+#if !defined(__linux__)
 #include <kern_static.h>
+#endif
+#include <kern_dynamic.h>
 kern_dynamic* g_kernblock = 0;
 #endif
+
 
 #include "krw_util.h"
 

@@ -18,8 +18,10 @@
 #ifdef __METALKIT__
 extern kernel_metalkit* g_kernblock;
 #else
-#include <kern_dynamic.h>
+#if !defined(__linux__)
 #include <kern_static.h>
+#endif
+#include <kern_dynamic.h>
 extern kern_dynamic* g_kernblock;
 #endif
 
