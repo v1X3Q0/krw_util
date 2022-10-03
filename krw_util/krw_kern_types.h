@@ -10,6 +10,7 @@ typedef enum SLIDE_BASE
     UNTOUCHED_TARG,
 } SLIDE_BASE_t;
 
+// so all the kernel managed enumerations are handled up to LEAK_KERNMAX
 typedef enum
 {
     KERN_BASE_SHARE=LEAK_KERNMAX + 1,

@@ -49,6 +49,7 @@ int main(int argc, char **argv)
     if (argc < 5)
     {
         printf("usage: %s op slide addr size\n", argv[0]);
+        printf("leaks: 0 is generic, %d is base, %d is slide\n", KERN_BASE_SHARE, KERN_SLIDE_SHARE);
         return -1;
     }
 
