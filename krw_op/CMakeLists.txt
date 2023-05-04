@@ -16,7 +16,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 set(LIB_LIST
     krw_util targkrw
     ${KRW_USE}
-    ${CMAKE_SYSTEM_NAME}_dyn_offset localUtil c_reginst
+    ${CMAKE_SYSTEM_NAME}_dyn_offset localUtil
+    # c_reginst
     kern_${MY_HOST_COMPILER} kernel_block bgrep_e
     krw_util ${CMAKE_SYSTEM_NAME}_dyn_offset localUtil_cpp
     )
