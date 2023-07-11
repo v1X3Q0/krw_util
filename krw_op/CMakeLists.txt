@@ -20,7 +20,7 @@ set(LIB_LIST
     krw_util
     c_reginst # unnecessary til i reinsert heuristics.
     kern_${MY_HOST_COMPILER} kernel_block localUtil_cpp
-    bgrep_e ${CMAKE_SYSTEM_NAME}_dyn_offset
+    bgrep_e
     )
 
 if (ARCH MATCHES "arm64" OR ARCH MATCHES "arm64e" OR ARCH MATCHES "aarch64")
