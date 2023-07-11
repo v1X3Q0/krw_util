@@ -23,14 +23,14 @@ extern kern_dynamic *g_kernblock;
 #define MORTIMERE(KSTRUCT_NAME)                                            \
     KSTRUCT_NAME operator[](const int location)                            \
     {                                                                      \
-        size_t offset_local = 0;                                           \
+        uint64_t offset_local = 0;                                           \
         g_kernblock->kstruct_offset(#KSTRUCT_NAME ".size", &offset_local); \
         kern_address += location * offset_local;                           \
         return *this;                                                      \
     }                                                                      \
     KSTRUCT_NAME &operator++()                                             \
     {                                                                      \
-        size_t offset_local = 0;                                           \
+        uint64_t offset_local = 0;                                           \
         g_kernblock->kstruct_offset(#KSTRUCT_NAME ".size", &offset_local); \
         kern_address += offset_local;                                      \
         return *this;                                                      \
@@ -38,14 +38,14 @@ extern kern_dynamic *g_kernblock;
     KSTRUCT_NAME operator++(int)                                           \
     {                                                                      \
         KSTRUCT_NAME ptrBkp = *this;                                       \
-        size_t offset_local = 0;                                           \
+        uint64_t offset_local = 0;                                           \
         g_kernblock->kstruct_offset(#KSTRUCT_NAME ".size", &offset_local); \
         kern_address += offset_local;                                      \
         return ptrBkp;                                                     \
     }                                                                      \
     KSTRUCT_NAME &operator--()                                             \
     {                                                                      \
-        size_t offset_local = 0;                                           \
+        uint64_t offset_local = 0;                                           \
         g_kernblock->kstruct_offset(#KSTRUCT_NAME ".size", &offset_local); \
         kern_address -= offset_local;                                      \
         return *this;                                                      \
@@ -53,7 +53,7 @@ extern kern_dynamic *g_kernblock;
     KSTRUCT_NAME operator--(int)                                           \
     {                                                                      \
         KSTRUCT_NAME ptrBkp = *this;                                       \
-        size_t offset_local = 0;                                           \
+        uint64_t offset_local = 0;                                           \
         g_kernblock->kstruct_offset(#KSTRUCT_NAME ".size", &offset_local); \
         kern_address -= offset_local;                                      \
         return ptrBkp;                                                     \
@@ -190,7 +190,7 @@ public:
     template <typename t>
     t kread_member(std::string member_key)
     {
-        size_t offset_local = 0;
+        uint64_t offset_local = 0;
         size_t new_kern_addr = 0;
 
         SAFE_PEXIT(g_kernblock->kstruct_offset(member_key, &offset_local) == -1, "symerror on symbol %s\n", member_key.data());
@@ -202,7 +202,7 @@ public:
     template <typename t>
     t kread_member_save(std::string member_key)
     {
-        size_t offset_local = 0;
+        uint64_t offset_local = 0;
         size_t new_kern_addr = 0;
 
         SAFE_PEXIT(g_kernblock->kstruct_offset(member_key, &offset_local) == -1, "symerror on symbol %s\n", member_key.data());
@@ -214,7 +214,7 @@ public:
     template <typename t>
     t kadd_member(std::string member_key)
     {
-        size_t offset_local = 0;
+        uint64_t offset_local = 0;
 
         SAFE_PEXIT(g_kernblock->kstruct_offset(member_key, &offset_local) == -1, "symerror on symbol %s\n", member_key.data());
 
@@ -224,7 +224,7 @@ public:
     template <typename t>
     t kadd_member_save(std::string member_key)
     {
-        size_t offset_local = 0;
+        uint64_t offset_local = 0;
         size_t new_kern_addr = 0;
 
         SAFE_PEXIT(g_kernblock->kstruct_offset(member_key, &offset_local) == -1, "symerror on symbol %s\n", member_key.data());

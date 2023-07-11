@@ -51,7 +51,7 @@ void* kdlsym(const char* symbol)
 {
 	void* result = 0;
 
-	FINISH_IF(g_kernblock->ksym_dlsym(symbol, (size_t*)&result) == -1);
+	FINISH_IF(g_kernblock->ksym_dlsym(symbol, (uint64_t*)&result) == -1);
 
 finish:
 	return result;

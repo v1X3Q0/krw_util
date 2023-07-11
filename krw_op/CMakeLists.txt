@@ -15,13 +15,16 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 set(LIB_LIST
     krw_util targkrw
-    localUtil ${KRW_USE}
-    # to resolve circular dep in linux
-    krw_util
-    c_reginst # unnecessary til i reinsert heuristics.
-    kern_${MY_HOST_COMPILER} kernel_block localUtil_cpp
-    bgrep_e
+    ${KRW_USE}
+    ${CMAKE_SYSTEM_NAME}_dyn_offset localUtil
+    # c_reginst
+    kern_${MY_HOST_COMPILER} kernel_block bgrep_e
+    krw_util ${CMAKE_SYSTEM_NAME}_dyn_offset localUtil_cpp
     )
+
+if(DEFINED WITH_CAPSTONE)
+    list(APPEND LIB_LIST capstone)
+endif()
 
 if (ARCH MATCHES "arm64" OR ARCH MATCHES "arm64e" OR ARCH MATCHES "aarch64")
     list(APPEND LIB_LIST hdeA64)

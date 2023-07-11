@@ -25,6 +25,7 @@
 #include <krw_util.h>
 #include <krw_ptr.h>
 
+
 #define CUROP_READ  1
 #define CUROP_WRITE 2
 
@@ -33,61 +34,140 @@
 #define kInit kInit_simple
 #endif
 
+void usage(const char* arg)
+{
+    printf("usage: %s [-d] op slide addr size\n", arg);
+    printf("leaks: 0 is generic, %d is base, %d is slide\n", KERN_BASE_SHARE, KERN_SLIDE_SHARE);
+    exit(1);
+}
+
+#ifdef WITH_CAPSTONE
+
+#include <capstone/capstone.h>
+int disassembleMem(uint8_t *base, size_t len)
+{
+    csh handle;
+    int result = -1;
+    cs_insn *insn;
+    size_t count = 0;
+    size_t j = 0;
+    cs_arch architecure_targ;
+    cs_mode mode_targ;
+
+#if defined(__arm64__) || defined(__aarch64__)
+    architecure_targ = CS_ARCH_ARM64;
+    mode_targ = CS_MODE_ARM;
+#elif defined(__AMD64__)
+    architecure_targ = CS_ARCH_X86;
+    mode_targ = CS_MODE_64;
+#endif
+    SAFE_BAIL(cs_open(architecure_targ, mode_targ, &handle) != CS_ERR_OK);
+    count = cs_disasm(handle, base, len, 0x1000, 0, &insn);
+    SAFE_PAIL(count <= 0, "ERROR: Failed to disassemble given code!\n");
+    for (j = 0; j < count; j++)
+    {
+        printf("0x%" PRIx64 ":\t%s\t\t%s\n", insn[j].address, insn[j].mnemonic,
+                insn[j].op_str);
+    }
+    cs_free(insn, count);
+
+    cs_close(&handle);
+fail:
+    return result;
+}
+#endif // WITH_CAPSTONE
+
 int main(int argc, char **argv)
 {
+#define OPTIND_PUSH(ARGUMENT) \
+    if (optind == argc) \
+    { \
+        usage(argv[0]); \
+    } \
+    else \
+    { \
+        ARGUMENT = argv[optind]; \
+        optind++; \
+    }
+
+#define OPTIND_PUSH_HEX(ARGUMENT) \
+    if (optind == argc) \
+    { \
+        usage(argv[0]); \
+    } \
+    else \
+    { \
+        ARGUMENT = strtoull(argv[optind], NULL, 0x10); \
+        optind++; \
+    }
+
+
     SLIDE_BASE_t slid;
     int ret = 0;
     int curOp = 0;
     char* format = 0;
-    void *addr = 0;
+    size_t addr = 0;
     size_t len = 0;
     uint8_t* netBuf = 0;
     unsigned char *readBuf = 0;
     int i = 0;
     char default_format[] = "qx";
+    int disassemble = 0;
+    const char* format_arg = 0;
+    const char* basis_arg = 0;
+
+    int opt = 0;
     
-    if (argc < 5)
+    while ((opt = getopt(argc, argv, "d")) != -1)
     {
-        printf("usage: %s op slide addr size\n", argv[0]);
-        printf("leaks: 0 is generic, %d is base, %d is slide\n", KERN_BASE_SHARE, KERN_SLIDE_SHARE);
-        return -1;
+        switch (opt)
+        {
+        case 'd':
+            disassemble = 1;
+            break;
+        default: /* '?' */
+            usage(argv[0]);
+        }
     }
 
-    if (*argv[1] == 'r')
+    // pull mandatory argument
+    OPTIND_PUSH(format_arg);
+    OPTIND_PUSH(basis_arg);
+    OPTIND_PUSH_HEX(addr);
+    OPTIND_PUSH_HEX(len);
+
+    if (*format_arg == 'r')
     {
         curOp = CUROP_READ;
-        format = &argv[1][1];
+        format = (char*)&format_arg[1];
     }
-    else if (*argv[1] == 'w')
+    else if (*format_arg == 'w')
     {
         curOp = CUROP_WRITE;
     }
     else
     {
         printf("invalid op arg");
-        return -1;
+        usage(argv[0]);
     }
 
-    if (*argv[2] == 's')
+    if (*basis_arg == 's')
     {
         slid = SLIDE_TARG;
     }
-    else if (*argv[2] == 'b')
+    else if (*basis_arg == 'b')
     {
         slid = BASE_TARG;
     }
-    else if (*argv[2] == 'u')
+    else if (*basis_arg == 'u')
     {
         slid = UNTOUCHED_TARG;
     }
     else
     {
         printf("invalid slide arg");
-        return -1;
+        usage(argv[0]);
     }
-
-    addr = (void *)strtoull(argv[3], NULL, 0x10);
-    len = strtoull(argv[4], NULL, 0x10);
 
     if ((len % sizeof(size_t)) != 0)
     {
@@ -101,18 +181,18 @@ int main(int argc, char **argv)
 
     if (slid == SLIDE_TARG)
     {
-        addr = (void *)kSlideTarg((size_t)addr);
+        addr = kSlideTarg(addr);
     }
     else if (slid == BASE_TARG)
     {
-        addr = (void *)kBaseTarg((size_t)addr);
+        addr = kBaseTarg(addr);
     }
 
     // userspace evaluations
-    if (((size_t)addr > LEAK_KERNMAX) && ((size_t)addr < LEAK_USERMAX))
+    if ((addr > LEAK_KERNMAX) && (addr < LEAK_USERMAX))
     {
         size_t to_leak = 0;
-        switch ((size_t)addr)
+        switch (addr)
         {
         case KERN_BASE_SHARE:
             SAFE_BAIL(kBase(&to_leak) == -1);
@@ -130,12 +210,21 @@ int main(int argc, char **argv)
     // so just perform the read
     else if (curOp == CUROP_READ)
     {
-        kRead(netBuf, len, (size_t)addr);
-        dumpMem(netBuf, len, format);
+        kRead(netBuf, len, addr);
+        if (disassemble == 0)
+        {
+            dumpMem(netBuf, len, format);
+        }
+#ifdef WITH_CAPSTONE
+        else
+        {
+            disassembleMem(netBuf, len);
+        }
+#endif
     }
     else if (curOp == CUROP_WRITE)
     {
-        kWrite(netBuf, len, (size_t)addr);
+        kWrite(netBuf, len, addr);
     }
 
 fail:
