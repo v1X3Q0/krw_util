@@ -27,9 +27,9 @@ if(DEFINED WITH_CAPSTONE)
 endif()
 
 if (ARCH MATCHES "arm64" OR ARCH MATCHES "arm64e" OR ARCH MATCHES "aarch64")
-    list(APPEND LIB_LIST hdeA64)
+    list(APPEND LIB_LIST hdeA64 c_reginst_A64)
 elseif(ARCH MATCHES "AMD64" OR ARCH MATCHES "i386" OR ARCH MATCHES "x86_64")
-    list(APPEND LIB_LIST hde_x86)
+    list(APPEND LIB_LIST hde_x86 c_reginst_x86)
 endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
