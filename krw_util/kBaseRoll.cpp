@@ -9,15 +9,25 @@
 #include <localUtil.h>
 #include <drv_share.h>
 
-#ifdef __arm64__
+// ========================================
+// ========== ARCHITECTURE SWITCH =========
+// ========================================
+#if defined(__arm64__)
 #include <hdeA64.h>
 #define hde_local hdeA64_t
 #elif defined(__x86_64__)
 #include <hde.h>
 #define hde_local hde64s_t
+#elif defined(__arm__)
+#define hde_local int
+#define parseInst(x, y)
+#warning no arm kbase support
 #endif
 #include "krw_util.h"
 
+// ========================================
+// ============== OS SWITCH ===============
+// ========================================
 #ifdef __APPLE__
 #define HEADER_MAGIC (MH_MAGIC_64)
 #elif defined(_WIN32)
@@ -30,17 +40,12 @@
 #define HEAD_BUF_SZ     0x60
 #endif
 
-int evaluate_found(uint8_t* buf)
+__attribute__((weak)) int evaluate_found(uint8_t* buf)
+#if defined(__linux__)
 {
     int result = -1;
-#if defined(__linux__)
     hde_local instTemp;
-#endif
 
-#if defined(__APPLE__) || defined(_WIN32)
-    FINISH_IF(*(uint32_t*)buf == HEADER_MAGIC);
-    
-#elif defined(__linux__)
     parseInst(buf, &instTemp);
 #if defined(__arm64__)
     // if CASE_ARM64_ENC(buf, INSTCODE, BR_ENC)
@@ -50,8 +55,8 @@ int evaluate_found(uint8_t* buf)
     // {
 
     // }
+#elif defined(__arm__)
 #endif // arch check
-#endif // linux check
 
     goto fail;
 finish:
@@ -59,14 +64,26 @@ finish:
 fail:
     return result;
 }
+#elif defined(__APPLE__) || defined (_WIN32)
+{
+    int result = -1;
 
+    FINISH_IF(*(uint32_t*)buf == HEADER_MAGIC);
+    
+    goto fail;
+finish:
+    result = 0;
+fail:
+    return result;
+}
+#endif
 
 // kbaseroll macros happen in 4 stages, incase it needs to be broken up
     // includes
     // variable definitions
     // presets before loop
     // comparator for a valid header
-int kBaseRoll(size_t* kbase_a)
+__attribute__((weak)) int kBaseRoll(size_t* kbase_a)
 {
     int result = -1;
     size_t leakAddr = 0;

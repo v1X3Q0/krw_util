@@ -46,13 +46,3 @@ size_t kBaseTarg(size_t targ)
 fail:
 	return resultTarg;
 }
-
-void* kdlsym(const char* symbol)
-{
-	void* result = 0;
-
-	FINISH_IF(g_kernblock->ksym_dlsym(symbol, (uint64_t*)&result) == -1);
-
-finish:
-	return result;
-}
