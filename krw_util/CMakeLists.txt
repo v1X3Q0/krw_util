@@ -21,9 +21,9 @@ set(INCLUDE_LIST
     ${ANDROID_TOOL_BASE}/common/kern_img/${MY_HOST_COMPILER}
     ${ANDROID_TOOL_BASE}/${MY_HOST_COMPILER}/${RW_DRIVER}/include)
 
-if(${MY_HOST_COMPILER} STREQUAL "windows")
+if(${MY_HOST_COMPILER} MATCHES "windows")
     list(APPEND INCLUDE_LIST ${ANDROID_TOOL_BASE}/${MY_HOST_COMPILER}/${RW_DRIVER}/targkrw)
-elseif(${MY_HOST_COMPILER} STREQUAL "metalkit")
+elseif(${MY_HOST_COMPILER} MATCHES "metalkit")
     list(APPEND INCLUDE_LIST ${METALKIT_EXT})
 endif()
 
