@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.5.0)
+project(krwutil_top)
+
 if(NOT DEFINED ANDROID_TOOL_BASE)
     message("no ANDROID_TOOL_BASE, setting to working directory")
     set(ANDROID_TOOL_BASE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -31,8 +33,10 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
     add_subdirectory(common/hde_armv8)
     add_subdirectory(common/local_util)
     add_subdirectory(linux/rwDrv)
-    file(CREATE_LINK ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util)
-endif()
+    execute_process(
+        COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/common/krw_util
+    )
+    endif()
 
 message("myhost ${MY_HOST_COMPILER}")
 
