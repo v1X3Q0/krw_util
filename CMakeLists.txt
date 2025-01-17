@@ -27,6 +27,10 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
         set(ARCH ${CMAKE_HOST_SYSTEM_PROCESSOR})
     endif()
 
+    add_subdirectory(common/hde_x86)
+    add_subdirectory(common/hde_armv8)
+    add_subdirectory(common/local_util)
+    add_subdirectory(linux/rwDrv)
 endif()
 
 message("myhost ${MY_HOST_COMPILER}")
