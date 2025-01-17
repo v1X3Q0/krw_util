@@ -29,13 +29,13 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
         set(ARCH ${CMAKE_HOST_SYSTEM_PROCESSOR})
     endif()
 
+    execute_process(
+        COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/common/krw_util
+    )
     add_subdirectory(common/hde_x86)
     add_subdirectory(common/hde_armv8)
     add_subdirectory(common/local_util)
     add_subdirectory(linux/rwDrv)
-    execute_process(
-        COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/common/krw_util
-    )
     endif()
 
 message("myhost ${MY_HOST_COMPILER}")
