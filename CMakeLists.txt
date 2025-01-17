@@ -23,6 +23,10 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
         message( FATAL_ERROR "need to be compiling from a valid host, can't be ${CMAKE_SYSTEM_NAME}" )
     endif()
 
+    if (NOT DEFINED ARCH)
+        set(ARCH ${CMAKE_HOST_SYSTEM_PROCESSOR})
+    endif()
+
 endif()
 
 message("myhost ${MY_HOST_COMPILER}")
