@@ -31,6 +31,7 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
     add_subdirectory(common/hde_armv8)
     add_subdirectory(common/local_util)
     add_subdirectory(linux/rwDrv)
+    file(CREATE_LINK ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util)
 endif()
 
 message("myhost ${MY_HOST_COMPILER}")
