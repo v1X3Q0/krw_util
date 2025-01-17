@@ -29,6 +29,8 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
         set(ARCH ${CMAKE_HOST_SYSTEM_PROCESSOR})
     endif()
 
+    set(KRW_USE drv_krw)
+
     execute_process(
         COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util
     )
