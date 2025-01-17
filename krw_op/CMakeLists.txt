@@ -7,7 +7,8 @@ endif()
 
 set(INCLUDE_LIST
     ${ANDROID_TOOL_BASE}/common/local_util
-    ${ANDROID_TOOL_BASE}/common/krw_util/krw_util
+    # ${ANDROID_TOOL_BASE}/common/krw_util/krw_util
+    ../krw_util
     ${ANDROID_TOOL_BASE}/common/kern_img/common
     ${ANDROID_TOOL_BASE}/common/kern_img/${MY_HOST_COMPILER}
     ${ANDROID_TOOL_BASE}/common/bgrep_c
