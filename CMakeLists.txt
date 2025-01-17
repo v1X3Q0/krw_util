@@ -30,7 +30,7 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
     endif()
 
     execute_process(
-        COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/common/krw_util
+        COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util
     )
     add_subdirectory(common/hde_x86)
     add_subdirectory(common/hde_armv8)
