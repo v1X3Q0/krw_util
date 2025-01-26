@@ -4,6 +4,7 @@ project(krwutil_top)
 if(NOT DEFINED ANDROID_TOOL_BASE)
     message("no ANDROID_TOOL_BASE, setting to working directory")
     set(ANDROID_TOOL_BASE ${CMAKE_CURRENT_SOURCE_DIR})
+    set(CMAKE_CXX_STANDARD 17)
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         set(MY_HOST_COMPILER xnu)
@@ -29,7 +30,7 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
         set(ARCH ${CMAKE_HOST_SYSTEM_PROCESSOR})
     endif()
 
-    set(KRW_USE drv_krw)
+    set(KRW_USE ${RW_DRIVER})
 
     execute_process(
         COMMAND rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util
@@ -39,9 +40,7 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
     add_subdirectory(common/hde_x86)
     add_subdirectory(common/hde_armv8)
     add_subdirectory(common/local_util)
-    endif()
-
-message("myhost ${MY_HOST_COMPILER}")
+endif()
 
 add_subdirectory(krw_op)
 add_subdirectory(krw_util)
