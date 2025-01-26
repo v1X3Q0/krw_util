@@ -42,6 +42,9 @@ endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     list(APPEND LIB_LIST kernelresolver)
+# redundancy for linux builds
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    list(APPEND LIB_LIST krw_util)
 endif()
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE SIMPLE_KRW=1)
