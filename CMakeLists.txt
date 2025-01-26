@@ -9,6 +9,7 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         set(MY_HOST_COMPILER xnu)
         set(RW_DRIVER rw_kext)
+        add_subdirectory(xnu/kernelresolver)
     elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         set(MY_HOST_COMPILER linux)
         set(RW_DRIVER rwDrv)
@@ -30,7 +31,7 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
         set(ARCH ${CMAKE_HOST_SYSTEM_PROCESSOR})
     endif()
 
-    set(KRW_USE ${RW_DRIVER})
+    set(KRW_USE drv_krw)
 
     execute_process(
         COMMAND rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util

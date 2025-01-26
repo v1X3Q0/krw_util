@@ -24,7 +24,6 @@ set(LIB_LIST
     # krw_util ${CMAKE_SYSTEM_NAME}_dyn_offset
     localUtil
     localUtil_cpp
-    krw_util
     )
 
 if(DEFINED WITH_CAPSTONE)
