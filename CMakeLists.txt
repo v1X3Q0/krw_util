@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5.0)
+cmake_minimum_required(VERSION 3.15.0)
 project(krwutil_top)
 
 if(NOT DEFINED ANDROID_TOOL_BASE)
@@ -32,12 +32,13 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
     set(KRW_USE drv_krw)
 
     execute_process(
+        COMMAND rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util
         COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util
     )
+    add_subdirectory(${MY_HOST_COMPILER}/${RW_DRIVER})
     add_subdirectory(common/hde_x86)
     add_subdirectory(common/hde_armv8)
     add_subdirectory(common/local_util)
-    add_subdirectory(linux/rwDrv)
     endif()
 
 message("myhost ${MY_HOST_COMPILER}")

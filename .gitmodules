@@ -16,3 +16,6 @@
 [submodule "common/hde_x86"]
 	path = common/hde_x86
 	url = https://github.com/v1X3Q0/hde_x86.git
+[submodule "xnu/rw_kext"]
+	path = xnu/rw_kext
+	url = http://192.168.77.136/mac/rw_kext.git
