@@ -29,19 +29,19 @@ if(DEFINED WITH_CAPSTONE)
     list(APPEND LIB_LIST capstone)
 endif()
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    list(APPEND LIB_LIST kernelresolver)
+# redundancy for linux builds
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    list(APPEND LIB_LIST krw_util)
+endif()
+
 if (ARCH MATCHES "arm64" OR ARCH MATCHES "arm64e" OR ARCH MATCHES "aarch64")
     list(APPEND LIB_LIST hdeA64
     )
 elseif(ARCH MATCHES "AMD64" OR ARCH MATCHES "i386" OR ARCH MATCHES "x86_64")
     list(APPEND LIB_LIST hde_x86
     )
-endif()
-
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    list(APPEND LIB_LIST kernelresolver)
-# redundancy for linux builds
-elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    list(APPEND LIB_LIST krw_util c_reginst)
 endif()
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE SIMPLE_KRW=1)
