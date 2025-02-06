@@ -49,6 +49,7 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
     add_subdirectory(common/hde_armv8)
     add_subdirectory(common/local_util)
     add_subdirectory(common/bgrep_c)
+    add_subdirectory(common/kern_img)
 endif()
 
 add_subdirectory(krw_op)
