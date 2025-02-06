@@ -6,6 +6,8 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
     set(ANDROID_TOOL_BASE ${CMAKE_CURRENT_SOURCE_DIR})
     set(CMAKE_CXX_STANDARD 17)
 
+    include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/krw_util)
+
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         set(MY_HOST_COMPILER xnu)
         set(RW_DRIVER rw_kext)
@@ -39,8 +41,6 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
     #     COMMAND rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util
     #     COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util
     # )
-
-    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/krw_util)
 
     add_subdirectory(${MY_HOST_COMPILER}/${RW_DRIVER})
     add_subdirectory(common/hde_x86)
