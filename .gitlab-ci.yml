@@ -37,5 +37,5 @@ build-windows:
     - mkdir -p build-out
     - cd build-out
     - cmake ..
-    - MSBuild.exe krw_util.sln
+    - MSBuild.exe krwutil_top.sln
 
