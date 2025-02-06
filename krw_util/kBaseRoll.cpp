@@ -32,6 +32,7 @@
 #define HEADER_MAGIC (MH_MAGIC_64)
 #elif defined(_WIN32)
 #define HEADER_MAGIC (IMAGE_DOS_SIGNATURE | 0x00900000)
+#define __attribute__(x)
 #endif
 
 #if defined(__APPLE__) || defined(_WIN32)
