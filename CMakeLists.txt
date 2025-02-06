@@ -7,6 +7,7 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
     set(CMAKE_CXX_STANDARD 17)
 
     include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/krw_util)
+    include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR}/kalloc_gen)
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         set(MY_HOST_COMPILER xnu)
