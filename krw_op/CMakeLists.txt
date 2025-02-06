@@ -41,7 +41,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     list(APPEND LIBDIR_LIST ${getopt_for_windows_LIB_DIR})
     list(APPEND LIB_LIST getopt_for_windows_static)
 
-    list(APPEND LIB_LIST krw_notsimple kern_windows)
+    list(APPEND LIB_LIST krw_notsimple kern_windows kernel_block)
 endif()
 
 if (ARCH MATCHES "arm64" OR ARCH MATCHES "arm64e" OR ARCH MATCHES "aarch64")
