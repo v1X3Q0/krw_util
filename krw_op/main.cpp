@@ -16,6 +16,8 @@
 
 #ifndef _WIN32
 #include <unistd.h>
+#else
+#include <getopt.h>
 #endif
 
 #include <localUtil.h>
