@@ -1,5 +1,4 @@
 project(krw_op)
-add_executable(${PROJECT_NAME} main.cpp)
 
 if(NOT DEFINED ANDROID_TOOL_BASE)
     message(FATAL_ERROR "need ANDROID_TOOL_BASE")
@@ -14,6 +13,8 @@ set(INCLUDE_LIST
     ${ANDROID_TOOL_BASE}/common/bgrep_c
     ${ANDROID_TOOL_BASE}/${MY_HOST_COMPILER}/${RW_DRIVER}/include
 )
+
+set(LIBDIR_LIST )
 
 set(LIB_LIST
     krw_util targkrw
@@ -44,6 +45,15 @@ elseif(ARCH MATCHES "AMD64" OR ARCH MATCHES "i386" OR ARCH MATCHES "x86_64")
     )
 endif()
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    find_package(getopt_for_windows)
+    list(APPEND INCLUDE_LIST ${getopt_for_windows_INCLUDE_DIR})
+    list(APPEND LIBDIR_LIST ${getopt_for_windows_LIB_DIR})
+    list(APPEND LIB_LIST getopt_for_windows_static)
+endif()
+
+add_executable(${PROJECT_NAME} main.cpp)
+
 target_compile_definitions(${PROJECT_NAME} PRIVATE SIMPLE_KRW=1)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_LIST})
@@ -51,5 +61,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_LIST})
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     target_link_options(${PROJECT_NAME} PRIVATE /DYNAMICBASE:NO)
 endif()
+
+target_link_directories(${PROJECT_NAME} PRIVATE ${LIBDIR_LIST})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${LIB_LIST})
