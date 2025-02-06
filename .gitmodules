@@ -25,3 +25,6 @@
 [submodule "xnu/kernelresolver"]
 	path = xnu/kernelresolver
 	url = https://github.com/v1X3Q0/kernelresolver.git
+[submodule "windows/winkrw"]
+	path = windows/winkrw
+	url = http://192.168.77.136/windows/winkrw.git
