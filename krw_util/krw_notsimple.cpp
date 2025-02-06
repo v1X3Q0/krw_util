@@ -8,6 +8,10 @@ kernel_metalkit* g_kernblock = 0;
 kern_dynamic* g_kernblock = 0;
 #endif
 
+#ifdef _WIN32
+#include <ntkern_tools.h>
+#endif
+
 // mac is the most straightforward, with the driver framework and the
 // ability to read the kernel as a file, and base it using the mach
 // header.
