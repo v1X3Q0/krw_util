@@ -42,6 +42,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     list(APPEND LIB_LIST getopt_for_windows_static)
 
     list(APPEND LIB_LIST krw_notsimple kern_windows kernel_block Windows_dyn_offset)
+    if (ARCH MATCHES "arm64" OR ARCH MATCHES "arm64e" OR ARCH MATCHES "aarch64")
+        list(APPEND LIB_LIST c_reginst_A64)
+    elseif(ARCH MATCHES "AMD64" OR ARCH MATCHES "i386" OR ARCH MATCHES "x86_64")
+        list(APPEND LIB_LIST c_reginst_x86)
+    endif()
 endif()
 
 if (ARCH MATCHES "arm64" OR ARCH MATCHES "arm64e" OR ARCH MATCHES "aarch64")
