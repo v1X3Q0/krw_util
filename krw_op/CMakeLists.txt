@@ -35,6 +35,11 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 # redundancy for linux builds
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     list(APPEND LIB_LIST krw_util)
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    find_package(getopt_for_windows)
+    list(APPEND INCLUDE_LIST ${getopt_for_windows_INCLUDE_DIR})
+    list(APPEND LIBDIR_LIST ${getopt_for_windows_LIB_DIR})
+    list(APPEND LIB_LIST getopt_for_windows_static)
 endif()
 
 if (ARCH MATCHES "arm64" OR ARCH MATCHES "arm64e" OR ARCH MATCHES "aarch64")
@@ -43,13 +48,6 @@ if (ARCH MATCHES "arm64" OR ARCH MATCHES "arm64e" OR ARCH MATCHES "aarch64")
 elseif(ARCH MATCHES "AMD64" OR ARCH MATCHES "i386" OR ARCH MATCHES "x86_64")
     list(APPEND LIB_LIST hde_x86
     )
-endif()
-
-if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    find_package(getopt_for_windows)
-    list(APPEND INCLUDE_LIST ${getopt_for_windows_INCLUDE_DIR})
-    list(APPEND LIBDIR_LIST ${getopt_for_windows_LIB_DIR})
-    list(APPEND LIB_LIST getopt_for_windows_static)
 endif()
 
 add_executable(${PROJECT_NAME} main.cpp)

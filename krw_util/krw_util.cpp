@@ -18,11 +18,11 @@
 #ifdef __METALKIT__
 extern kernel_metalkit* g_kernblock;
 #else
-#if !defined(__linux__)
-#include <kern_static.h>
-#endif
-#include <kern_dynamic.h>
-extern kern_dynamic* g_kernblock;
+	#if !defined(__linux__)
+	#include <kern_static.h>
+	#endif
+// #include <kern_dynamic.h>
+// extern kern_dynamic* g_kernblock;
 #endif
 
 size_t kSlideTarg(size_t targ)
