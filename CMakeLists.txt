@@ -33,10 +33,15 @@ if(NOT DEFINED ANDROID_TOOL_BASE)
 
     set(KRW_USE drv_krw)
 
-    execute_process(
-        COMMAND rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util
-        COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util
-    )
+    # TODO the old way was to symlink for stuff, but seems to be better for windows to just include
+    # top level directories for each project
+    # execute_process(
+    #     COMMAND rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util
+    #     COMMAND ln -s ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/common/krw_util
+    # )
+
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/krw_util)
+
     add_subdirectory(${MY_HOST_COMPILER}/${RW_DRIVER})
     add_subdirectory(common/hde_x86)
     add_subdirectory(common/c_reginst)
